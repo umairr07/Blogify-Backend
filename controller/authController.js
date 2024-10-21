@@ -2,6 +2,7 @@ import userModel from "../models/userModel.js"
 import bcrypt from "bcrypt"
 import { generateToken } from "../utils/token.js";
 
+//register
 export const register = async (req, res) => {
     // console.log(req.body)
     try {
@@ -36,9 +37,11 @@ export const register = async (req, res) => {
         })
     }
 }
+
+//login
 export const login = async (req, res) => {
     try {
-        const { email, password } = req.body
+        const { email } = req.body
 
         const user = await userModel.findOne({ email })
         if (!user) {
@@ -48,7 +51,8 @@ export const login = async (req, res) => {
             });
         }
 
-        const isMatch = await bcrypt.compare(password, user.password)
+        const isMatch = await bcrypt.compare(req.body.password, user.password)
+        // console.log(password, ":", user.password)
         if (!isMatch) {
             return res.status(400).json({
                 success: false,
@@ -56,7 +60,9 @@ export const login = async (req, res) => {
             });
         }
 
-        generateToken(user, "User logged in successfully!!", res)
+        const { password, ...info } = user._doc
+
+        generateToken(info, "User logged in successfully!!", res)
 
     } catch (error) {
         console.log(error)
@@ -65,6 +71,8 @@ export const login = async (req, res) => {
         })
     }
 }
+
+//logout
 export const logout = async (req, res) => {
     try {
         res.clearCookie("token",
