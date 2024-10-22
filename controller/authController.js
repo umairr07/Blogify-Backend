@@ -26,7 +26,7 @@ export const register = async (req, res) => {
         const newUser = await userModel.create({ username, email, password: hashedPassword })
 
         res.json({
-            message: "User created successfully!!",
+            message: "User registered successfully!!",
             user: newUser
         })
 

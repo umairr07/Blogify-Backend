@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken"
 
 export const verifyToken = (req, res, next) => {
     const token = req.cookies.token
-    console.log(token)
+    // console.log(token)
 
     if (!token) {
         return res.status(401).json({
@@ -20,6 +20,8 @@ export const verifyToken = (req, res, next) => {
         }
 
         req.userId = data._id
+
+        next()
     })
-    next()
+
 }
