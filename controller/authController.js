@@ -1,6 +1,7 @@
 import userModel from "../models/userModel.js"
 import bcrypt from "bcrypt"
 import { generateToken } from "../utils/token.js";
+import jwt from "jsonwebtoken"
 
 //register
 export const register = async (req, res) => {
@@ -90,4 +91,19 @@ export const logout = async (req, res) => {
             error: error
         })
     }
+}
+
+//refetch user
+export const refetch = async (req, res) => {
+    const token = req.cookies.token
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, data) => {
+        if (err) {
+            res.status(404).json(err)
+        }
+
+        res.status(200).json({
+            success: true,
+            data: data
+        })
+    })
 }
