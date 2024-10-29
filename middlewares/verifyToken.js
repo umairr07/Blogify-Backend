@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken"
+import userModel from "../models/userModel.js"
 
 export const verifyToken = (req, res, next) => {
     const token = req.cookies.token
@@ -20,7 +21,8 @@ export const verifyToken = (req, res, next) => {
         }
 
         req.userId = data._id
-
+        const decode = jwt.verify(token, process.env.JWT_SECRET)
+        req.user = await userModel.findOne(decode._id)
         next()
     })
 

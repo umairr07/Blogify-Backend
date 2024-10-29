@@ -65,12 +65,14 @@ export const deleteUser = async (req, res) => {
 //get user
 export const getUser = async (req, res) => {
     try {
-        const user = await userModel.findById(req.params.id)
-        const { password, ...info } = user._doc
+        const user = req.user
+        console.log(user)
+        // const { password, ...info } = user._doc
         res.status(200).json({
             success: true,
             message: "User fetched successfully!!",
-            user: info
+            // user: info
+            user: user
         })
     } catch (error) {
         console.log(error)

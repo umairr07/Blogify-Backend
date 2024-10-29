@@ -8,7 +8,7 @@ router.post("/create", verifyToken, createPost)
 router.put("/:id", verifyToken, updatePost)
 router.delete("/:id", verifyToken, deletePost)
 router.get("/:id", verifyToken, postDetails)
-router.get("/", verifyToken, getPosts)
+router.get("/", getPosts)
 router.get("/user/:userId", verifyToken, usersPosts)
 
 
